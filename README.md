@@ -7,3 +7,7 @@ Extension for easy develop macros in LibreOffice... with Python
 Extensión para desarrollar fácilmente macros en LibreOffice... con Python
 
 [Documentación para EasyDev] (http://easydev.readthedocs.org/es/latest/)
+
+Extension pour faciliter le développement de macros...  avec Python
+
+[Documentation pour EasyDev] (http://easydev.readthedocs.org/fr/latest/)
