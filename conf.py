@@ -24,19 +24,26 @@ ADDIN_LICENCE_SUPPRESS_ON_UPDATE = True
 ADDIN_RELEASE_NOTES = True
 ADDIN_DESCRIPTION = True
 ADDIN_INFO = {
+    'en': {
+        'author': (ADDIN_AUTHOR_WEB, ADDIN_AUTHOR_NAME),
+        'display_name': 'EasyDev - Tool for easy develop macros in LibreOffice, with Python',
+        'license_text': 'registration/license_en.txt',
+        'release_notes': '{}release-notes_en.txt'.format(GITHUB_RAW),
+        'extension_description': 'description/desc_en.txt',
+    },
     'es': {
         'author': (ADDIN_AUTHOR_WEB, ADDIN_AUTHOR_NAME),
-        'display_name': 'Herramientas para desarrollo simple en LibreOffice, con Python',
+        'display_name': 'EasyDev - Herramientas para desarrollo simple en LibreOffice, con Python',
         'license_text': 'registration/license_es.txt',
         'release_notes': '{}release-notes_es.txt'.format(GITHUB_RAW),
         'extension_description': 'description/desc_es.txt',
     },
-    'en': {
+    'fr': {
         'author': (ADDIN_AUTHOR_WEB, ADDIN_AUTHOR_NAME),
-        'display_name': 'Tool for easy develop macros in LibreOffice, with Python',
+        'display_name': 'EasyDev - Outil pour faciliter le développement de macros dans LibreOffice, avec Python',
         'license_text': 'registration/license_en.txt',
         'release_notes': '{}release-notes_en.txt'.format(GITHUB_RAW),
-        'extension_description': 'description/desc_en.txt',
+        'extension_description': 'description/desc_fr.txt',
     },
 }
 

@@ -1,0 +1,1 @@
+Extension pour faciliter le développement de macros dans LibreOffice... avec Python
