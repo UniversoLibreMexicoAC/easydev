@@ -162,7 +162,7 @@ module org { module universolibre { module EasyDev {
 
     interface XLORequests : com::sun::star::uno::XInterface
     {
-        org::universolibre::EasyDev::Response requests([in] org::universolibre::EasyDev::Requests data);
+        any requests([in] org::universolibre::EasyDev::Requests data);
     };
 
     service LORequests {

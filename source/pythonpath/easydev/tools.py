@@ -49,7 +49,7 @@ log = logging.getLogger(NAME_EXT)
 stop_thread = {}
 
 
-def call_macro(factory, macro, args):
+def call_macro(factory, macro, doc, args):
     #~ https://wiki.openoffice.org/wiki/Documentation/DevGuide/Scripting/Scripting_Framework_URI_Specification
     if not macro.Library:
         macro.Library = 'Standard'
@@ -77,7 +77,10 @@ def call_macro(factory, macro, args):
         main = 'vnd.sun.star.script:{}.{}.js?language=JavaScript&location={}'.format(
             macro.Library, macro.Name, macro.Location)
     #~ log.info(main)
-    script = factory.createScriptProvider('').getScript(main)
+    if macro.Location=='document':
+        script = doc.getScriptProvider().getScript(main)
+    else:
+        script = factory.createScriptProvider('').getScript(main)
     return script.invoke(args, None, None)[0]
 
 
@@ -114,18 +117,19 @@ class TextTransferable(unohelper.Base, XTransferable):
 
 class TimerThread(Thread):
 
-    def __init__(self, event, wait, factory, macro, args):
+    def __init__(self, event, wait, factory, macro, doc, args):
         Thread.__init__(self)
         self.stopped = event
         self.wait = wait
         self.factory = factory
         self.macro = macro
+        self.doc = doc
         self.args = args
 
     def run(self):
         log.info('Timer started... {}'.format(self.macro.Name))
         while not self.stopped.wait(self.wait):
-            call_macro(self.factory, self.macro, self.args)
+            call_macro(self.factory, self.macro, self.doc, self.args)
         log.info('Timer stopped... {}'.format(self.macro.Name))
 
 
@@ -426,21 +430,23 @@ class Tools(XTools, LODefault):
         return int(time.mktime(now.timetuple()))
 
     def callMacro(self, macro, args):
+        doc = self.desktop.getCurrentComponent()
         factory = self._create_instance(
             'com.sun.star.script.provider.MasterScriptProviderFactory', False)
         if macro.Thread:
-            thread = Thread(target=call_macro, args=(factory, macro, args))
+            thread = Thread(target=call_macro, args=(factory, macro, doc, args))
             thread.start()
             return
         else:
-            return call_macro(factory, macro, args)
+            return call_macro(factory, macro, doc, args)
 
     def timer(self, name, wait, macro, args):
         global stop_thread
+        doc = self.desktop.getCurrentComponent()
         factory = self._create_instance(
             'com.sun.star.script.provider.MasterScriptProviderFactory', False)
         stop_thread[name] = Event()
-        thread = TimerThread(stop_thread[name], wait, factory, macro, args)
+        thread = TimerThread(stop_thread[name], wait, factory, macro, doc, args)
         thread.start()
         return
 
